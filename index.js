@@ -1,29 +1,8 @@
 const express = require('express');
+const {UserRouter} = require('./routes/user.js');
 
 const app = express();
 
- app.post ("/user/sighnup", (req, res) => {
-    res.json({
-        message: "signup endpoing "
-    })
-
- });
-
- 
- app.post ("/user/signin", (req, res) => {
-    res.json({
-        message: "signin endpoint "
-    })
-
- });
-
- 
- app.get ("/user/purchases", (req, res) => {
-    res.json({
-        message: "purchases endpoint "
-    })
-
- });
 
  
  app.post ("/course/purchase", (req, res) => {
@@ -40,3 +19,7 @@ const app = express();
     })
 
  });
+
+
+ app.use("/user", userRouter);
+ app.use("/course", courseRouter);
