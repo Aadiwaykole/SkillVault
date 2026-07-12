@@ -2,7 +2,7 @@
 // const schema = mongoose.Schema;
 const mongoose =  require('mongoose');
 console.log("mongoose connected")
-mongoose.connect ("mongodb+srv://aditya:Aaditya@cluster0.8ycxnhv.mongodb.net/courseEra")
+
 const Schema  = mongoose.Schema; 
 
 const ObjectId = mongoose.Types.ObjectId;
