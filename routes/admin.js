@@ -18,6 +18,18 @@ adminRouter.post ("/signup", (req, res) => {
 
  });
 
+ adminRouter.post ("/course", function (req, res){
+    res.josn ({
+        message :" signin endpoint"
+    })
+ })
+
+ adminRouter.get ("/course/bulk", function (req, res){
+    res.json ({
+        message: "signup endpoint"
+    })
+ })
+
 
 
 
