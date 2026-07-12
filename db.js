@@ -1,22 +1,29 @@
 // const mongoose = require('mongoose');
 // const schema = mongoose.Schema;
+const mongoose =  require('mongoose');
+console.log("mongoose connected")
+mongoose.connect ("mongodb+srv://aditya:Aaditya@cluster0.8ycxnhv.mongodb.net/courseEra")
+const Schema  = mongoose.Schema; 
 
-const {Schema} = requre("mongoose");
-const ObjectId = Schema.ObjectId;
+const ObjectId = mongoose.Types.ObjectId;
 
 
-const UserSchema   =  Schema({
-    email: String,
+const userSchema   =  new Schema({
+    email:{type: String, unique: true},
     password: String,
     Firstname: String,
     lastName: String,
 })
 
-const adminSchema = Schema({
+const adminSchema = new Schema({
+    email:{type: String, unique: true},
+    password: String,
+    Firstname: String,
+    lastName: String,
     
 })
 
-const CourseSchema =  Schema({
+const CourseSchema = new  Schema({
     _id: ObjectId,
     title: String,
     description: String,
@@ -25,14 +32,22 @@ const CourseSchema =  Schema({
     creatorId: ObjectId,
 })
 
-const purchaseSchema = Schema({
-
+const purchaseSchema = new Schema({
+    _id : ObjectId,
+    courseId : ObjectId,
+    userId : ObjectId
 });
 
 
-const userModel = mongoose.model("user", UserSchema);
+
+const userModel = mongoose.model("user", userSchema);
 const adminModel = mongoose.model("admin", adminSchema);
 const courseModel = mongoose.model("course  ", CourseSchema);
 const purchaseModel = mongoose.model("purchase", purchaseSchema);
 
-
+module.export ={
+    userModel,
+    adminModel,
+    courseModel, 
+    purchaseModel
+}
