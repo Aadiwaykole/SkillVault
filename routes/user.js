@@ -2,14 +2,27 @@
 // const Router = express.Router();
 
 //insted of up sie use this only one line here
+const {userModel} = require("../db");
 const {Router}= require("express");
 
 const userRouter = Router();
 
 
-userRouter.post ("/signup", (req, res) => {
+userRouter.post ("/signup", async(req, res) => {
+    const {email, password , firstName , lastName } = req.body ; //adding zod here 
+    //const email = req.body.email ; 
+    //const password = requ.body.password;  
+
+    //TODO: has the password so plaintext pass not stored in db ; 
+
+    await userModel.create({
+        email:email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName
+    })
     res.json({
-        message: "signup endpoing "
+        message: "signup succeeded "
     })
 
  });
