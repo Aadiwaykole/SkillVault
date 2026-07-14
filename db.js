@@ -11,14 +11,14 @@ const ObjectId = mongoose.Types.ObjectId;
 const userSchema   =  new Schema({
     email:{type: String, unique: true},
     password: String,
-    Firstname: String,
+    firstname: String,
     lastName: String,
 })
 
 const adminSchema = new Schema({
     email:{type: String, unique: true},
     password: String,
-    Firstname: String,
+    firstname: String,
     lastName: String,
     
 })
@@ -28,7 +28,7 @@ const CourseSchema = new  Schema({
     title: String,
     description: String,
     price: Number,
-    inageUrl: String,
+    imageUrl: String,
     creatorId: ObjectId,
 })
 
@@ -42,10 +42,10 @@ const purchaseSchema = new Schema({
 
 const userModel = mongoose.model("user", userSchema);
 const adminModel = mongoose.model("admin", adminSchema);
-const courseModel = mongoose.model("course  ", CourseSchema);
+const courseModel = mongoose.model("course", CourseSchema);
 const purchaseModel = mongoose.model("purchase", purchaseSchema);
 
-module.export ={
+module.exports ={
     userModel,
     adminModel,
     courseModel, 
