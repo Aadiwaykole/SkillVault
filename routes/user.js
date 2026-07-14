@@ -63,42 +63,62 @@ userRouter.post ("/signup", async(req, res) => {
  
 userRouter.post("/signin", async (req, res) => {
 
+    // Validation (usually outside try)
     const result = signinSchema.safeParse(req.body);
 
     if (!result.success) {
         return res.status(400).json({
-            message: "Invalid input",
-            errors: result.error.issues
+            message: "Invalid input"
         });
     }
 
     const { email, password } = result.data;
 
-        //TO DO : ideally password should be hashed , and hence you cantcompare the user provided password and database passwrod
+    try {
 
-    const user = await userModel.find({
-        email:email, 
-        password: password
-    });
-        
-    if( user){
-        const token = jwt.sign({
-            id: user._id
-        }, JWT_USER_PASSWORD)
+        // Database
+        const user = await userModel.findOne({
+            email
+        });
 
-        //TO DO COOKIE LOGIC HERE 
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
 
-        res.json ({
-            token : token 
-        })
+        // Compare password
+        const isMatch = await bcrypt.compare(
+            password,
+            user.password
+        );
+
+        if (!isMatch) {
+            return res.status(401).json({
+                message: "Incorrect password"
+            });
+        }
+
+        // JWT
+        const token = jwt.sign(
+            { id: user._id },
+            JWT_USER_PASSWORD
+        );
+
+        res.json({
+            token
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: err.message
+        });
+
     }
 
-    // Continue with login logic...
-    res.json({
-        message:"signin successfully"
-    })
 });
-
  
  userRouter.get ("/purchases", (req, res) => {
     res.json({
