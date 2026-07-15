@@ -5,8 +5,9 @@ const {adminModel} = require("../db");
 const jwt = require("jsonwebtoken");
 const {z} = require ("zod");
 const bcrypt = require("bcrypt");
+const {JWT_ADMIN_PASSWORD} = require("../config");
 
-const JWT_ADMIN_PASSWORD = "KDLAdndks"
+
 
 const adminRouter = Router();
 
@@ -116,10 +117,31 @@ adminRouter.post("/signin", async (req, res) => {
 
 });
 
- adminRouter.post ("/course", function (req, res){
-    res.josn ({
-        message :" signin endpoint"
-    })
+ adminRouter.post ("/course", adminMiddleware ,async function (req, res){
+    const adminId = req.userId; 
+
+    const {title, description, imageUrl} = req.body ; 
+     
+    //creating a web3 saas in 6 hours
+    try{
+        const course = await courseModel.create({
+            title, 
+            description, 
+            imageUrl,
+            price ,
+            creatorId: adminId
+        })
+        res.josn ({
+            message :" Course created",
+            courseId: course._id
+        });
+    }catch(err){
+        res.status(500).json({
+            message: "something went wrong",
+            error : err.message
+        });
+    }
+    
  })
 
  adminRouter.get ("/course/bulk", function (req, res){
