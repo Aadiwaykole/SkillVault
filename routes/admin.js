@@ -1,7 +1,8 @@
 const {Router }= require("express");
 
 
-const {adminModel} = require("../db");
+const {adminModel,courseModel} = require("../db");
+
 const jwt = require("jsonwebtoken");
 const {z} = require ("zod");
 const bcrypt = require("bcrypt");
@@ -19,6 +20,11 @@ const adminSignupSchema = z.object({
     firstName: z.string().min(2),
     lastName: z.string().min(2)
 });
+
+const adminSigninSchema = z.object({
+    email: z.string().email(),
+    password :z.string().min(6)
+})
 
 
 
@@ -122,7 +128,7 @@ adminRouter.post("/signin", async (req, res) => {
  adminRouter.post ("/course", adminMiddleware ,async function (req, res){
     const adminId = req.userId; 
 
-    const {title, description, imageUrl} = req.body ; 
+    const {title, description, imageUrl,price} = req.body ; 
      
     //creating a web3 saas in 6 hours
     try{
@@ -133,16 +139,16 @@ adminRouter.post("/signin", async (req, res) => {
             price ,
             creatorId: adminId
         })
-        res.josn ({
+        res.json ({
             message :" Course created",
             courseId: course._id
         });
-    }catch(err){
-        res.status(500).json({
-            message: "something went wrong",
-            error : err.message
-        });
-    }
+        }catch(err){
+            res.status(500).json({
+                message: "something went wrong",
+                error : err.message
+            });
+        }
     
  })
 

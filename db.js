@@ -24,7 +24,7 @@ const adminSchema = new Schema({
 })
 
 const CourseSchema = new  Schema({
-    _id: ObjectId,
+    
     title: String,
     description: String,
     price: Number,
@@ -33,7 +33,7 @@ const CourseSchema = new  Schema({
 })
 
 const purchaseSchema = new Schema({
-    _id : ObjectId,
+    
     courseId : ObjectId,
     userId : ObjectId
 });
