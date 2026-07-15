@@ -1,3 +1,6 @@
+require('dotenv').config(); 
+console.log(process.env.MONGO_URL)
+
 const express = require('express');
 const mongoose = require("mongoose");
 const {UserRouter} = require('./routes/user.js');
@@ -17,9 +20,7 @@ app.get("/", (req, res) => {
 
 async function main() {
     try {
-        await mongoose.connect(
-            "mongodb+srv://aditya:Aaditya@cluster0.8ycxnhv.mongodb.net/courseEra"
-        );
+        await mongoose.connect(process.env.MONGO_URL);
 
         console.log("MongoDB Connected");
 
